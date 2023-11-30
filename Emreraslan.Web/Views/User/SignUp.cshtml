@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "SingIn";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,21 +10,41 @@
             <div class="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
                 <div class="account_form">
                     <h3>Register</h3>
-                    <form action="#">
+                    <form id="registrationForm">
                         <div class="default-form-box">
-                            <label>Username <span>*</span></label>
-                            <input type="text" class="form-control">
+                            <label>Name <span>*</span></label>
+                            <input type="text" class="form-control" id="txtName">
+                        </div>
+                        <div class="default-form-box">
+                            <label >Surname <span>*</span></label>
+                            <input type="text" class="form-control" id="txtSurname">
+                        </div>
+                        <div class="default-form-box">
+                            <label >Username <span>*</span></label>
+                            <input type="text" class="form-control" id="txtUserName">
                         </div>
                         <div class="default-form-box">
                             <label>Email <span>*</span></label>
-                            <input type="text" class="form-control">
+                            <input type="email" class="form-control" id="txtEmail">
                         </div>
                         <div class="default-form-box">
                             <label>Passwords <span>*</span></label>
-                            <input type="password" class="form-control">
+                            <input type="password" class="form-control" id="passPassword">
+                        </div>
+                        <div class="default-form-box">
+                            <label>Password Confirm <span>*</span></label>
+                            <input type="password" class="form-control" id="passConfirmed">
+                        </div>
+                        <div class="default-form-box">
+                            <label>Address <span>*</span></label>
+                            <input type="text" class="form-control" id="txtAddress">
+                        </div>                                                
+                        <div class="default-form-box">
+                            <label>Phone Number <span>*</span></label>
+                            <input type="tel" class="form-control" id="telPhoneNumber">
                         </div>
                         <div class="login_submit">
-                            <button class="theme-btn-one btn-black-overlay btn_md" type="submit">Register</button>
+                            <button class="theme-btn-one btn-black-overlay btn_md" type="submit" id="btnSave">Register</button>
                         </div>
                     </form>
                 </div>
@@ -36,6 +55,37 @@
 
 @section Scripts{
     <script>
+        $(function () {
+            $("#registrationForm").submit(function (event) {
+                event.preventDefault();
 
+                const data = {
+                    user : {
+                        name: $("#txtName").val(),
+                        surname: $("#txtSurname").val(),
+                        phoneNumber: $("#telPhoneNumber").val(),
+                        address: $("#txtAddress").val(),
+                        userName: $("#txtUserName").val(),
+                        email: $("#txtEmail").val(),
+                        password: $("#passPassword").val(),
+                        repeatPassword: $("#passConfirmed").val()
+                    }
+                }
+
+                $.post('/User/SignUp', data).done(function (response) {
+                    if (response.isOk) {
+
+                        $.unblockUI();
+                        alert("İşlem Başarılı");
+                    }
+                    else {
+
+                        alert(response.message);
+                    }
+                    $.unblockUI();
+                });
+
+            });
+        });
     </script>
 }

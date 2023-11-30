@@ -33,20 +33,20 @@ namespace Emreraslan.Services.Concrete
 			return (" ", true);
 		}
 
-		public async Task<(string, bool)> SingUpUser(UserSignUpDto userSingUpDto)
+		public async Task<(string, bool)> SignUpUser(UserSignUpDto userSignUpDto)
 		{
-			if(userSingUpDto.Password != userSingUpDto.RepeatPassword)
+			if (userSignUpDto.Password != userSignUpDto.RepeatPassword)
 			{
 				return ("Şifreler birbiriyle uyuşmuyor.", false);
 			}
 
-			var user1 = await _userManager.FindByEmailAsync(userSingUpDto.Email);
+			var user1 = await _userManager.FindByEmailAsync(userSignUpDto.Email);
 			if(user1 != null)
 			{
 				return ("Böyle bir email zaten kullanılmakta.", false);
 			}
 
-			var user2 = await _userManager.FindByNameAsync(userSingUpDto.UserName);
+			var user2 = await _userManager.FindByNameAsync(userSignUpDto.UserName);
 			if(user2 != null)
 			{
 				return ("Böyle bir kullanıcı adı zaten kullanılıyor.", false);
@@ -54,15 +54,15 @@ namespace Emreraslan.Services.Concrete
 
 			var newUser = new User()
 			{
-				Name = userSingUpDto.Name,
-				Email = userSingUpDto.Email,
-				UserName = userSingUpDto.UserName,
-				Address = userSingUpDto.Address,
-				PhoneNumber = userSingUpDto.PhoneNumber,
-				Surname = userSingUpDto.Surname				
+				Name = userSignUpDto.Name,
+				Email = userSignUpDto.Email,
+				UserName = userSignUpDto.UserName,
+				Address = userSignUpDto.Address,
+				PhoneNumber = userSignUpDto.PhoneNumber,
+				Surname = userSignUpDto.Surname				
 			};
 
-			var result = await _userManager.CreateAsync(newUser, userSingUpDto.Password);
+			var result = await _userManager.CreateAsync(newUser, userSignUpDto.Password);
 			if (!result.Succeeded)
 			{
 				string message = string.Empty;

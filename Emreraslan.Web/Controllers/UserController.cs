@@ -22,8 +22,9 @@ namespace Emreraslan.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SignUp(UserSignUpDto user)
         {
-            var result = await _userService.SingUpUser(user);
-            return Json(new {isOk=result.Item2,message=result.Item1});
+            var result = await _userService.SignUpUser(user);
+            return Json(new { isOk = result.Item2, message = result.Item1 });
         }
+
     }
 }

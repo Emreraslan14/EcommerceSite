@@ -3,7 +3,6 @@ using Emreraslan.DataAccess.Contexts.EfCoreApp;
 using Emreraslan.Services.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +13,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<UserService>();
 #endregion
 
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
 	//Environment.GetEnvironmentVariable("CONSTR")
 	opt.UseSqlServer("Data Source=.;Initial Catalog=EmreraslanDb;Integrated Security=True;TrustServerCertificate=True;");
 }, ServiceLifetime.Transient, ServiceLifetime.Transient);
+
+
 builder.Services.AddIdentity<User,Role>(opt =>
 {
 	// username and email
