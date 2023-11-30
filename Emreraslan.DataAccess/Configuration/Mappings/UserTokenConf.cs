@@ -8,12 +8,9 @@ namespace Emreraslan.DataAccess.Configuration.Mappings
     {
         public void Configure(EntityTypeBuilder<UserToken> b)
         {
-            b.HasKey(t => new { t.UserId, t.LoginProvider, t.Name });            
-            // Limit the size of the composite key columns due to common DB restrictions
-            b.Property(t => t.LoginProvider).HasMaxLength(256);
-            b.Property(t => t.Name).HasMaxLength(256);
-
-            // Maps to the AspNetUserTokens table
+            b.HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+            b.Property(t => t.LoginProvider).HasMaxLength(128);
+            b.Property(t => t.Name).HasMaxLength(128);
             b.ToTable("UserTokens");
         }
     }

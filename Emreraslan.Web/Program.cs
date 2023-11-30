@@ -17,7 +17,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
 	//Environment.GetEnvironmentVariable("CONSTR")
-	opt.UseSqlServer("Data Source=.;Initial Catalog=EmreraslanDb;Integrated Security=True;TrustServerCertificate=True;");
+	opt.UseSqlServer("Data Source=.;Initial Catalog=EmreEraslan01;Integrated Security=True;TrustServerCertificate=True;");
 }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
 

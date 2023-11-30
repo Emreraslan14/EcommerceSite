@@ -8,7 +8,8 @@ namespace Emreraslan.DataAccess.Configuration.Mappings
     {
         public void Configure(EntityTypeBuilder<UserRole> b)
         {
-            b.ToTable("UserRoles");            
+            b.HasKey(r => new { r.UserId, r.RoleId });
+            b.ToTable("UserRoles");
         }
     }
 }

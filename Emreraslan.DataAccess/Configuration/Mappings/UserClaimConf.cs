@@ -8,11 +8,8 @@ namespace Emreraslan.DataAccess.Configuration.Mappings
     {
         public void Configure(EntityTypeBuilder<UserClaim> b)
         {
-            // Primary key
             b.HasKey(uc => uc.Id);
             b.Property(x => x.Id).ValueGeneratedOnAdd();
-
-            // Maps to the AspNetUserClaims table
             b.ToTable("UserClaims");
         }
     }
