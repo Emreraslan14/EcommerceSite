@@ -58,7 +58,7 @@
         $(function () {
             $("#registrationForm").submit(function (event) {
                 event.preventDefault();
-
+                
                 const data = {
                     user : {
                         name: $("#txtName").val(),
@@ -72,18 +72,18 @@
                     }
                 }
 
-                $.post('/User/SignUp', data).done(function (response) {
-                    if (response.isOk) {
+                $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
-                        $.unblockUI();
-                        alert("İşlem Başarılı");
-                    }
-                    else {
-
-                        alert(response.message);
-                    }
-                    $.unblockUI();
-                });
+                $.post('/User/SignUp', data)
+                    .done(function (response) {
+                        if (response.isOk) {
+                            window.location.href = "/User/Login";
+                            console.log("Başarılı");
+                        }
+                    })
+                    .fail(function (error) {
+                        console.error("Error during login: ", error);
+                    });
 
             });
         });

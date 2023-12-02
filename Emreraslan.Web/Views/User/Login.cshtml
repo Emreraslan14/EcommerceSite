@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Checkout-Area -->
+<section id="login_area" class="ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="account_form">
+                    <h3>Login</h3>
+                    <form action="#" id="loginForm">
+                        <div class="default-form-box">
+                            <label>Username<span>*</span></label>
+                            <input type="text" class="form-control" id="txtUserName">
+                        </div>
+                        <div class="default-form-box">
+                            <label>Passwords <span>*</span></label>
+                            <input type="password" class="form-control" id="txtPassword">
+                        </div>
+                        <div class="login_submit">
+                            <button class="theme-btn-one btn-black-overlay btn_md" type="submit">login</button>
+                        </div>
+                        <div class="remember_area">
+                            <label class="checkbox-default">
+                                <input type="checkbox" id="chkRemember">
+                                <span>Remember me</span>
+                            </label>
+                        </div>
+                        <a href="/User/SignUp">Create Account</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("#loginForm").submit(function (event) {
+                event.preventDefault();
+
+                const data = {
+                    username: $("#txtUserName").val(),
+                    password: $("#txtPassword").val(),
+                    isremember: $("#chkRemember").is(":checked")
+                }
+
+                $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
+                $.post('/User/Login', data)
+                    .done(function (resp) {
+                        if (resp.isOk) {
+                            window.location.href = "/Home/Index"; 
+                            console.log(resp.message);
+                        }
+                    })
+                    .fail(function (error) {
+                        console.error("Error during login: ", error);
+                    });
+            })
+        })
+    </script>
+}
