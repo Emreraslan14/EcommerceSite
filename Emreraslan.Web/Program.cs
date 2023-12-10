@@ -1,5 +1,8 @@
 using Emreraslan.Core.Entities;
 using Emreraslan.DataAccess.Contexts.EfCoreApp;
+using Emreraslan.DataAccess.Repos.Abstract;
+using Emreraslan.DataAccess.Repos.Concrete;
+using Emreraslan.Services.Abstract;
 using Emreraslan.Services.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,17 +10,63 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 #region Services
+
+
 builder.Services.AddScoped<UserService>();
+builder.Services.AddSingleton<AppDbContext>();
+builder.Services.AddScoped<IVendorService, VendorService>();
+
+
+
+
+builder.Services.AddSingleton(typeof(IGenericRepo<Product>), serviceProvider =>
+{
+    using (var scope = serviceProvider.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        // Now you can use dbContext within this scope
+        return new GenericRepo<Product>(dbContext);
+    }    
+});
+
+builder.Services.AddSingleton(typeof(IGenericRepo<Vendor>), serviceProvider =>
+{
+    using (var scope = serviceProvider.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        // Now you can use dbContext within this scope
+        return new GenericRepo<Vendor>(dbContext);
+    }
+});
+builder.Services.AddSingleton(typeof(IGenericRepo<Order>), serviceProvider =>
+{
+    using (var scope = serviceProvider.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        // Now you can use dbContext within this scope
+        return new GenericRepo<Order>(dbContext);
+    }
+});
+builder.Services.AddSingleton(typeof(IGenericRepo<Category>), serviceProvider =>
+{
+    using (var scope = serviceProvider.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        // Now you can use dbContext within this scope
+        return new GenericRepo<Category>(dbContext);
+    }
+});
+
 #endregion
 
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
 	//Environment.GetEnvironmentVariable("CONSTR")
-	opt.UseSqlServer("Data Source=.;Initial Catalog=EmreEraslan01;Integrated Security=True;TrustServerCertificate=True;");
+	opt.UseSqlServer("Data Source=.;Initial Catalog=EmreEraslanDb;Integrated Security=True;TrustServerCertificate=True;");
 }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
 
@@ -57,8 +106,18 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
+
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();

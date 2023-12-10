@@ -2,7 +2,7 @@
 {
     public abstract class IEntity
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ChangedDate { get; set; }
         public bool IsDeleted { get; set; }

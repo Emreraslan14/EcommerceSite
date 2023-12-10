@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/UserPanel/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <div class="bevendor-content">
+    <h3>Be A Vendor</h3>
+    <form id="registrationForm">
+        <div class="default-form-box">
+            <label>CompanyName <span>*</span></label>
+            <input type="text" class="form-control" id="txtName">
+        </div>
+        <div class="default-form-box">
+            <label>Established Year <span>*</span></label>
+            <input type="text" class="form-control" id="txtYear">
+        </div>
+        <div class="default-form-box">
+            <label>Total Employees <span>*</span></label>
+            <input type="number" class="form-control" id="numTotalEmp">
+        </div>
+        <div class="default-form-box">
+            <label>Email <span>*</span></label>
+            <input type="email" class="form-control" id="txtEmail">
+        </div>
+        <div class="default-form-box">
+            <label>Address <span>*</span></label>
+            <input type="text" class="form-control" id="txtAddress">
+        </div>
+        <div class="default-form-box">
+            <label>Category <span>*</span></label>
+            <input type="text" class="form-control" id="txtCategory">
+        </div>
+        <div class="login_submit">
+            <button class="theme-btn-one btn-black-overlay btn_md" type="submit" id="btnSave">Register</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+@section Scriptss {
+
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(function () {
+
+            $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
+            $("#registrationForm").submit(function (e) {
+                e.preventDefault();
+
+                const data = {
+                    vendor : {
+                        companyName: $("#txtName").val(),
+                        establishedYear: $("#txtYear").val(),
+                        totalEmployees: $("#numTotalEmp").val(),
+                        email: $("#txtEmail").val(),
+                        address: $("#txtAddress").val(),
+                        category: $("#txtCategory").val()
+                    }
+                };
+
+                $.post('/UserPanel/BeVendor/Index', data)
+                    .done(function (resp) {
+                        if (resp.isOk) {
+                            alert(resp.message);
+                            console.log(resp.message);
+                        }
+                    });
+            });
+        });
+    </script>
+}

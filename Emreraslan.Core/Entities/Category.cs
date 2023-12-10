@@ -6,5 +6,6 @@ namespace Emreraslan.Core.Entities
     {
         public string Name { get; set; }
 
+        public List<Product> Products { get; set; }
     }
 }
