@@ -1,6 +1,9 @@
-﻿using Emreraslan.Core.Entities.BaseEntity;
+﻿using Emreraslan.Core.Entities;
+using Emreraslan.Core.Entities.BaseEntity;
 using Emreraslan.DataAccess.Contexts.EfCoreApp;
 using Emreraslan.DataAccess.Repos.Abstract;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -10,8 +13,7 @@ namespace Emreraslan.DataAccess.Repos.Concrete
         where TEntity : IEntity, new()
     {
         private readonly AppDbContext _ctx;
-
-        public GenericRepo(AppDbContext ctx)
+        public GenericRepo(AppDbContext ctx )
         {
             _ctx = ctx;
         }
@@ -48,7 +50,7 @@ namespace Emreraslan.DataAccess.Repos.Concrete
         public int Insert(TEntity entity)
         {
             {
-                _ctx.Entry(entity).State |= EntityState.Added;
+                _ctx.Entry(entity).State = EntityState.Added;
                 return _ctx.SaveChanges();
             }
         }

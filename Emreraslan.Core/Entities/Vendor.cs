@@ -13,7 +13,8 @@ namespace Emreraslan.Core.Entities
         public string Email { get; set; }
         public string Category { get; set; }
 
-
+        public User User { get; set; }
+        public string UserId { get; set; }
         public List<Product> Products { get; set; }
         public List<Order> Orders { get; set; } 
     }

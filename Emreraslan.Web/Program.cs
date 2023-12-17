@@ -18,8 +18,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddSingleton<AppDbContext>();
 builder.Services.AddScoped<IVendorService, VendorService>();
-
-
+builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddSingleton(typeof(IGenericRepo<Product>), serviceProvider =>

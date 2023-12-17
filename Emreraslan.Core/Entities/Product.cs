@@ -11,8 +11,9 @@ namespace Emreraslan.Core.Entities
         public string Colour { get; set; }
         public decimal Size { get; set; }
         public string Brand { get; set; }
+        public string PhotoPath { get; set; }
 
-        
+
         public Category Category { get; set; }
         public int CategoryId { get; set; }
 

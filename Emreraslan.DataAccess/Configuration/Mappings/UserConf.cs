@@ -22,6 +22,7 @@ namespace Emreraslan.DataAccess.Configuration.Mappings
             b.HasMany<UserLogin>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
             b.HasMany<UserToken>().WithOne().HasForeignKey(ut => ut.UserId).IsRequired();
             b.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+            b.HasOne(x => x.Vendor).WithOne(x => x.User).HasForeignKey<Vendor>(x => x.UserId).IsRequired().OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

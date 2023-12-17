@@ -138,6 +138,10 @@ namespace Emreraslan.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhotoPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -439,7 +443,14 @@ namespace Emreraslan.DataAccess.Migrations
                     b.Property<int>("TotalEmployees")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Vendors");
                 });
@@ -552,6 +563,17 @@ namespace Emreraslan.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Emreraslan.Core.Entities.Vendor", b =>
+                {
+                    b.HasOne("Emreraslan.Core.Entities.User", "User")
+                        .WithOne("Vendor")
+                        .HasForeignKey("Emreraslan.Core.Entities.Vendor", "UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Emreraslan.Core.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -570,6 +592,9 @@ namespace Emreraslan.DataAccess.Migrations
             modelBuilder.Entity("Emreraslan.Core.Entities.User", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Vendor")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Emreraslan.Core.Entities.Vendor", b =>

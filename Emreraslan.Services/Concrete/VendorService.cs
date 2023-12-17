@@ -8,6 +8,7 @@ namespace Emreraslan.Services.Concrete
     {
         public VendorService(IGenericRepo<Vendor> repo) : base(repo)
         {
+
         }
     }
 }

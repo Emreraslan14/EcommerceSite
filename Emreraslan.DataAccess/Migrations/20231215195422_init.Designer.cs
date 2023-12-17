@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Emreraslan.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231210173151_mig_init")]
-    partial class mig_init
+    [Migration("20231215195422_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -138,6 +138,10 @@ namespace Emreraslan.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhotoPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -442,7 +446,14 @@ namespace Emreraslan.DataAccess.Migrations
                     b.Property<int>("TotalEmployees")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Vendors");
                 });
@@ -555,6 +566,17 @@ namespace Emreraslan.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Emreraslan.Core.Entities.Vendor", b =>
+                {
+                    b.HasOne("Emreraslan.Core.Entities.User", "User")
+                        .WithOne("Vendor")
+                        .HasForeignKey("Emreraslan.Core.Entities.Vendor", "UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Emreraslan.Core.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -573,6 +595,9 @@ namespace Emreraslan.DataAccess.Migrations
             modelBuilder.Entity("Emreraslan.Core.Entities.User", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Vendor")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Emreraslan.Core.Entities.Vendor", b =>

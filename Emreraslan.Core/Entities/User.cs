@@ -9,5 +9,6 @@ namespace Emreraslan.Core.Entities
         public string Address { get; set; }
 
         public List<Order> Orders { get; set; }
+        public Vendor Vendor { get; set; }
     }
 }

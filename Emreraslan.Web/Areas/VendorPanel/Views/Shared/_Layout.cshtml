@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "_Layout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--vendor-area-Area -->
+<section id="vendor_area" class="ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-3">
+                <!-- Nav tabs -->
+                <div class="dashboard_tab_button">
+                    <ul role="tablist" class="nav flex-column dashboard-list">
+                        <li>
+                            <a asp-area="VendorPanel" asp-controller="Dashboard" asp-action="Index">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="VendorPanel" asp-controller="Product" asp-action="Index">
+                                <i class="fas fa-shopping-cart"></i>Product
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="VendorPanel" asp-controller="Order" asp-action="Index">
+                                <i class="fas fa-shopping-bag"></i>Order
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="VendorPanel" asp-controller="Profile" asp-action="Index">
+                                <i class="far fa-id-badge"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="VendorPanel" asp-controller="AddProduct" asp-action="Index">
+                            <i class="fas fa-cart-plus"></i>Add PRoduct</a>
+                        </li>
+                        <li>
+                            <a asp-area="VendorPanel" asp-controller="Settings" asp-action="Index">
+                                <i class="fas fa-user-cog"></i>Setting
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-9">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content">
+                    
+                    @RenderBody()
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@RenderSection("Scriptss",false)

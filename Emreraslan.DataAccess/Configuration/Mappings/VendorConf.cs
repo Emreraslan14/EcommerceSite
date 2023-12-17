@@ -11,7 +11,7 @@ namespace Emreraslan.DataAccess.Configuration.Mappings
             b.HasKey(v => v.Id);
             b.Property(x => x.Id).UseIdentityColumn(1,1);
 
-            b.HasMany(v => v.Products).WithOne(p => p.Vendor).HasForeignKey(p => p.VendorId);      
+            b.HasMany(v => v.Products).WithOne(p => p.Vendor).HasForeignKey(p => p.VendorId);     
         }
     }
 }
