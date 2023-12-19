@@ -8,6 +8,9 @@ namespace Emreraslan.DataAccess.Repos.Concrete
     {
         public VendorRepo(AppDbContext ctx) : base(ctx)
         {
+
         }
+
+
     }
 }

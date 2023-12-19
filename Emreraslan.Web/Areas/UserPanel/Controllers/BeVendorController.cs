@@ -35,7 +35,7 @@ namespace Emreraslan.Web.Areas.UserPanel.Controllers
 
                 if (user == null)
                 {
-                    return Json(new { isOk = false, message = "Kayıt başarısız!!!" });
+                    return Json(new { isOk = false, message = "Kullanıcı bulunamadı." });
                 }
 
                 vendor.UserId = user.Id;

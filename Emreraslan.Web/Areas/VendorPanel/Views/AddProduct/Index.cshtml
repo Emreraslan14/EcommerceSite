@@ -14,7 +14,7 @@
                         <a href="/VendorPanel/Dashboard/Index"><i class="fas fa-long-arrow-alt-left"></i> Back To Dashboard</a>
                     </div>
                     <h3>Add Product</h3>
-                    <form action="#!" class="add_product_form">
+                    <form action="#!" class="add_product_form" id="addProdForm">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="image-input">
@@ -29,53 +29,53 @@
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="product_name">Product Name*</label>
-                                    <input type="text" id="product_name" class="form-control"
+                                    <input type="text" id="txtName" class="form-control"
                                            placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="product_price">Product Price*</label>
-                                    <input type="number" id="product_price" class="form-control" placeholder="">
+                                    <input type="number" id="numPrice" class="form-control" placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
-                                    <label for="product_name">Brand*</label>
-                                    <input type="text" id="product_name" class="form-control"
+                                    <label for="product_brand">Brand*</label>
+                                    <input type="text" id="txtBrand" class="form-control"
                                            placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
-                                    <label for="product_name">Description*</label>
-                                    <input type="text" id="product_name" class="form-control"
+                                    <label for="product_desc">Description*</label>
+                                    <input type="text" id="txtDesc" class="form-control"
                                            placeholder="Write about the product features">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
-                                    <label for="product_name">Colour*</label>
-                                    <input type="text" id="product_name" class="form-control"
+                                    <label for="product_colour">Colour*</label>
+                                    <input type="text" id="txtColour" class="form-control"
                                            placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
-                                    <label for="product_name">Size*</label>
-                                    <input type="text" id="product_name" class="form-control"
+                                    <label for="product_size">Size*</label>
+                                    <input type="text" id="txtSize" class="form-control"
                                            placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="available_stock">Available Stock (Quantity)*</label>
-                                    <input type="number" id="available_stock" class="form-control" placeholder="">
+                                    <input type="number" id="numStock" class="form-control" placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="btn_right_table">
-                                    <button class="theme-btn-one bg-black btn_sm">Add Product</button>
+                                    <button class="theme-btn-one bg-black btn_sm" type="submit">Add Product</button>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,61 @@
 @section Scripts{
 
     <script src="~/assets/js/img-upload.js"></script>
-    
 
+    <script>
+        $(function () {
+
+            $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
+            $("#addProdForm").submit(function (e) {
+                e.preventDefault();
+
+                var formData = new FormData();
+                var file = $("#imageInput")[0].files[0];
+                formData.append("photo", file);
+
+                $.ajax({
+                    url: '@Url.Action("UploadPhoto", "AddProduct")',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (resp) {
+
+                        if(resp.isOk){
+                            const data = {
+                                prod: {
+                                    name: $("#txtName").val(),
+                                    price: $("#numPrice").val(),
+                                    brand: $("#txtBrand").val(),
+                                    description: $("#txtDesc").val(),
+                                    colour: $("#txtColour").val(),
+                                    size: $("#txtSize").val(),
+                                    stock: $("#numStock").val(),
+                                    photopath: resp.path
+                                }
+                            };
+
+                            $.post('/VendorPanel/AddProduct/Index', data)
+                                .done(function (resp) {
+                                    if (resp.isOk) {
+                                        alert(resp.message);
+                                        console.log(resp.message);
+                                    }
+                                });    
+                                
+                        }
+                        else{
+                            console.log(resp.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+
+            });
+        });
+    </script>
 
 }                                

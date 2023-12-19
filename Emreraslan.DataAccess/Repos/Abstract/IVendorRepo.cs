@@ -4,6 +4,6 @@ namespace Emreraslan.DataAccess.Repos.Abstract
 {
     public interface IVendorRepo : IGenericRepo<Vendor>
     {
-
+        
     }
 }
