@@ -1,13 +1,158 @@
 ﻿
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-<a href="/User/SignUp" class="btn btn-dark">Kayıt Ol</a>
-<a href="/User/Login" class="btn btn-dark">Giriş Yap</a>
-<a href="/UserPanel/Dashboard/Index" class="btn btn-dark">Hesabım</a>
-<a href="/VendorPanel/Dashboard/Index" class="btn btn-dark">Vendor</a>
+@using Emreraslan.Core.Entities;
+@model List<Product>
+
+
+<!-- Shop Main Area -->
+    <section id="shop_main_area" class="ptb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">                
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="product_shot">
+                        <div class="product_shot_title">
+                            <p>
+                            Sort By
+                            :
+                            </p>
+                        </div>
+                        <div class="customs_selects">
+                            <select name="product" class="customs_sel_box">
+                                <option value="newness">Sort by newness</option>
+                                <option value="low">price: low to high</option>
+                                <option value="high">price: high to low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row">
+
+
+                    @foreach(var product in @Model)
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="product_wrappers_one">
+                                <div class="thumb">
+                                    <a href="product-single.html" class="image">
+                                        <img src="@product.PhotoPath" alt="Product" />
+                                        <img class="hover-image" src="@product.PhotoPath"
+                                             alt="Product" />
+                                    </a>
+                                    <div class="actions">
+                                        <a href="wishlist.html" class="action wishlist" title="Wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </a>
+                                        <a href="#" class="action quickview" data-link-action="quickview"
+                                           title="Quick view" data-bs-toggle="modal"
+                                           data-bs-target="#exampleModalCenter"><i class="fas fa-expand"></i></a>
+                                        <a href="compare.html" class="action compare" title="Compare">
+                                            <i class="fas fa-exchange-alt"></i>
+                                        </a>
+                                    </div>
+                                    <button title="Add To Cart" class="add-to-cart offcanvas-toggle"
+                                            data-bs-toggle="modal" data-bs-target="#shoppingCartModal">
+                                        Add To Cart
+                                    </button>
+                                </div>
+                                <div class="content">
+                                    <h5 class="title"><a href="product-single.html">@product.Name</a></h5>
+                                    <span class="price">
+                                        @{
+                                            if(product.Discount > 0)
+                                            {
+                                                <span class="new">
+                                                    <del>@product.Price.ToString("0.##") ₺</del><br />
+                                                    @{
+                                                        decimal discountedPrice = product.Price - (product.Discount * product.Price / 100);
+                                                    }
+                                                    @discountedPrice.ToString("0.##") ₺
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span>@product.Price ₺</span>
+                                            }
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }       
+
+
+                    <div class="col-lg-12">
+                            <!-- pagination start -->
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- pagination end -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="shop_sidebar_wrapper">
+                        <div class="shop_Search">
+                            <form action="#!">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <button><img src="assets/img/svg/search.svg" alt="img"></button>
+                            </form>
+                        </div>
+                        <div class="shop_sidebar_boxed">
+                            <h4>Product Categories</h4>
+                            <form action="#!">
+                                <label class="custom_boxed">None
+                                <input type="radio" name="radio" checked="checked">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="custom_boxed">Furniture
+                                    <input type="radio" name="radio">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="custom_boxed">Electronics
+                                    <input type="radio" name="radio">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="custom_boxed">Sport
+                                    <input type="radio" name="radio">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="custom_boxed">Cosmetic
+                                    <input type="radio" name="radio">
+                                    <span class="checkmark"></span>
+                                </label>                                
+                            </form>
+                        </div>                                               
+                        <div class="shop_sidebar_boxed">                                                  
+                            <div class="clear_button">
+                                <button class="theme-btn-one btn_sm btn-black-overlay">Clear Filter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 

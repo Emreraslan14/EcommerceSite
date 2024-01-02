@@ -1,0 +1,130 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+@model List<Emreraslan.Core.Entities.Category>
+
+@section StyleSheets{
+	<!-- Data Tables -->
+	<link href='~/AdminPanelContent/assets/plugins/data-tables/datatables.bootstrap5.min.css' rel='stylesheet'>
+	<link href='~/AdminPanelContent/assets/plugins/data-tables/responsive.datatables.min.css' rel='stylesheet'>
+
+}
+
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+	<div class="content">
+		<div class="breadcrumb-wrapper breadcrumb-contacts">
+			<div>
+				<h1>Category List</h1>
+				<p class="breadcrumbs">
+					<span><a href="index.html">Home</a></span>
+					<span><i class="mdi mdi-chevron-right"></i></span>Category
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xl-12 col-lg-12">
+				<div class="ec-cat-list card card-default">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="responsive-data-table" class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Category Name</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									@{
+										foreach (var category in Model)
+										{
+											<tr>
+												<td># @category.Id</td>
+												<td>@category.Name</td>												
+											</tr>
+										}
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br />
+
+		<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Category</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">New Category</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="#!" class="add_product_form" id="addCategoryForm">
+							<div class="row">								
+								<div class="col-lg-6">
+									<div class="fotm-group">
+										<label>Category Name*</label>
+										<input type="text" id="txtName" class="form-control"
+											   placeholder="">
+									</div>
+								</div>								
+							</div>
+							<br />
+							<button type="submit" class="btn btn-primary">Add</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>						
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+@section Scriptss{
+	<!-- Data Tables -->
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/jquery.datatables.min.js'></script>
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/datatables.bootstrap5.min.js'></script>
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/datatables.responsive.min.js'></script>
+
+	<!-- Option Switcher -->
+	<script src="~/AdminPanelContent/assets/plugins/options-sidebar/optionswitcher.js"></script>
+	<script>
+		$(function () {
+
+			$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
+			$("#addCategoryForm").submit(function (e) {
+				e.preventDefault();
+
+				const data = {
+					category: {
+						name: $("#txtName").val()
+					}
+				};
+
+				$.post('/AdminPanel/Category/AddCategory', data)
+					.done(function (resp) {
+						if (resp.isOk) {
+							alert(resp.message);
+							window.location.href = "/AdminPanel/Category/Index";
+						} else {
+							alert(resp.message);
+						}
+					});
+			});
+
+		});
+	</script>
+}
+

@@ -7,7 +7,7 @@ namespace Emreraslan.DataAccess.Repos.Abstract
         where TEntity : IEntity
     {
 
-        List<TEntity> GetAll(Expression<Func<TEntity,bool>> filter);
+        List<TEntity> GetAll(Expression<Func<TEntity,bool>>? filter = null);
         TEntity Get(Expression<Func<TEntity, bool>> filter);
         TEntity GetById(int id);
         void Delete(TEntity entity);

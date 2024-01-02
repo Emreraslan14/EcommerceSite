@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+@model List<Emreraslan.Core.Entities.User>
+
+
+@section StyleSheets{
+	<!-- Data Tables -->
+	<link href='~/AdminPanelContent/assets/plugins/data-tables/datatables.bootstrap5.min.css' rel='stylesheet'>
+	<link href='~/AdminPanelContent/assets/plugins/data-tables/responsive.datatables.min.css' rel='stylesheet'>
+}
+
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+	<div class="content">
+		<div class="breadcrumb-wrapper breadcrumb-contacts">
+			<div>
+				<h1>User List</h1>
+				<p class="breadcrumbs">
+					<span><a href="index.html">Home</a></span>
+					<span><i class="mdi mdi-chevron-right"></i></span>User
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xl-12 col-lg-12">
+				<div class="ec-cat-list card card-default">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="responsive-data-table" class="table">
+								<thead>
+									<tr>
+										<th>Number</th>
+										<th>Full Name</th>
+										<th>Email</th>
+										<th>Purchased</th>
+										<th>Amount</th>
+										<th>Status</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									@{
+										var num = 1;
+										foreach (var user in Model)
+										{
+											<tr>
+												<td># @num</td>
+												<td>@user.Name @user.Surname</td>
+												<td>@user.Email</td>
+												<td>1794</td>
+												<td>$40,892</td>
+												<td><span class="badge badge-success">Active</span></td>
+												<td>
+													<div class="btn-group">
+														<button type="button"
+																class="btn btn-outline-success">
+															Options
+														</button>
+														<button type="button"
+																class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+																data-bs-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="false" data-display="static">
+															<span class="sr-only">Info</span>
+														</button>
+														<div class="dropdown-menu">
+															<a class="dropdown-item" href="/AdminPanel/User/Delete/@user.Id">Delete</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											num++;
+										}
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+@section Scriptss{
+	<!-- Data Tables -->
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/jquery.datatables.min.js'></script>
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/datatables.bootstrap5.min.js'></script>
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/datatables.responsive.min.js'></script>
+
+	<!-- Option Switcher -->
+	<script src="~/AdminPanelContent/assets/plugins/options-sidebar/optionswitcher.js"></script>
+}
+

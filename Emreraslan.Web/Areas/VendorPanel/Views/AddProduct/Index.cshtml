@@ -62,8 +62,8 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
-                                    <label for="product_size">Size*</label>
-                                    <input type="text" id="txtSize" class="form-control"
+                                    <label for="product_size">Discount(%)</label>
+                                    <input type="number" id="numDisc" class="form-control"
                                            placeholder="">
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                                     brand: $("#txtBrand").val(),
                                     description: $("#txtDesc").val(),
                                     colour: $("#txtColour").val(),
-                                    size: $("#txtSize").val(),
+                                    discount: $("#numDisc").val(),
                                     stock: $("#numStock").val(),
                                     photopath: resp.path
                                 }

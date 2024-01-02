@@ -7,6 +7,8 @@ using Emreraslan.Services.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,8 +16,8 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 #region Services
 
-
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<DataSeedingService>();
 builder.Services.AddSingleton<AppDbContext>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -89,7 +91,6 @@ builder.Services.AddIdentity<User,Role>(opt =>
 	.AddEntityFrameworkStores<AppDbContext>()
 	.AddDefaultTokenProviders();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -108,7 +109,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -120,5 +120,14 @@ app.UseEndpoints(endpoints =>
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var dataSeedingService = scope.ServiceProvider.GetRequiredService<DataSeedingService>();
+
+    await dataSeedingService.SeedRolesAsync();
+    await dataSeedingService.SeedAdminUserAsync();
+}
+
 
 app.Run();

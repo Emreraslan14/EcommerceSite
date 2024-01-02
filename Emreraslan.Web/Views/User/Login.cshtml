@@ -53,9 +53,16 @@
 
                 $.post('/User/Login', data)
                     .done(function (resp) {
-                        if (resp.isOk) {
-                            window.location.href = "/Home/Index"; 
-                            console.log(resp.message);
+                        if (resp.isOk) {                            
+                            if (resp.message === "Kullanici") {
+                                window.location.href = "/Home/Index";
+                            }
+                            if (resp.message === "Admin") {
+                                window.location.href = "/AdminPanel/Dashboard/Index";
+                            }
+                        }
+                        else{
+                            alert(resp.message);
                         }
                     })
                     .fail(function (error) {

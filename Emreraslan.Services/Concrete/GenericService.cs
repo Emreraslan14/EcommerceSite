@@ -24,7 +24,7 @@ namespace Emreraslan.Services.Concrete
             return _repo.Get(filter);
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter)
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>>? filter = null)
         {
             return _repo.GetAll(filter);
         }

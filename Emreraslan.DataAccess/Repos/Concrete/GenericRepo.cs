@@ -1,9 +1,6 @@
-﻿using Emreraslan.Core.Entities;
-using Emreraslan.Core.Entities.BaseEntity;
+﻿using Emreraslan.Core.Entities.BaseEntity;
 using Emreraslan.DataAccess.Contexts.EfCoreApp;
 using Emreraslan.DataAccess.Repos.Abstract;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -18,7 +15,7 @@ namespace Emreraslan.DataAccess.Repos.Concrete
             _ctx = ctx;
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity,bool>> filter = null)
+        public List<TEntity> GetAll(Expression<Func<TEntity,bool>>? filter = null)
         {
             {
                 if(filter == null)

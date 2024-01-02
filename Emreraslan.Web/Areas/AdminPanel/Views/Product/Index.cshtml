@@ -1,0 +1,111 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+@model Emreraslan.Core.ViewModels.ProductVendorVm
+
+
+@section StyleSheets{
+	<!-- Data Tables -->
+	<link href='~/AdminPanelContent/assets/plugins/data-tables/datatables.bootstrap5.min.css' rel='stylesheet'>
+	<link href='~/AdminPanelContent/assets/plugins/data-tables/responsive.datatables.min.css' rel='stylesheet'>
+}
+
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+	<div class="content">
+		<div class="breadcrumb-wrapper breadcrumb-contacts">
+			<div>
+				<h1>Product List</h1>
+				<p class="breadcrumbs">
+					<span><a href="index.html">Home</a></span>
+					<span><i class="mdi mdi-chevron-right"></i></span>Product
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xl-12 col-lg-12">
+				<div class="ec-cat-list card card-default">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="responsive-data-table" class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Photo</th>
+										<th>Product name</th>
+										<th>Category</th>
+										<th>Vendor</th>
+										<th>Brand</th>
+										<th>Price</th>
+										<th>Discount</th>
+										<th>Total sales</th>
+										<th>Stock</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									@{										
+										foreach (var product in @Model.Products)
+										{
+											<tr>
+												<td># @product.Id</td>
+												<td><img class="tbl-thumb" src="@product.PhotoPath" alt="Product Image" /></td>
+												<td>@product.Name</td>
+												@{
+													foreach(var vendor in Model.Vendors)
+													{
+														if(product.VendorId == vendor.Id)
+														{
+															<td>@vendor.Category</td>
+															<td>@vendor.CompanyName</td>
+														}
+													}
+												}
+												<td>@product.Brand</td>
+												<td>@product.Price</td>
+												<td>% @product.Discount</td>
+												<td>5782</td>
+												<td>@product.Stock</td>
+												<td>
+													<div class="btn-group mb-1">
+														<button type="button"
+																class="btn btn-outline-success">
+															Options
+														</button>
+														<button type="button"
+																class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+																data-bs-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="false" data-display="static">
+															<span class="sr-only">Opt</span>
+														</button>
+
+														<div class="dropdown-menu">
+															<a class="dropdown-item" href="/AdminPanel/Product/Delete/@product.Id">Delete</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+										}
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+@section Scriptss{
+	<!-- Data Tables -->
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/jquery.datatables.min.js'></script>
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/datatables.bootstrap5.min.js'></script>
+	<script src='~/AdminPanelContent/assets/plugins/data-tables/datatables.responsive.min.js'></script>
+
+	<!-- Option Switcher -->
+	<script src="~/AdminPanelContent/assets/plugins/options-sidebar/optionswitcher.js"></script>
+}
+

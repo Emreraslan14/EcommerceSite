@@ -128,6 +128,9 @@ namespace Emreraslan.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -143,9 +146,6 @@ namespace Emreraslan.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Size")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Stock")
@@ -402,8 +402,10 @@ namespace Emreraslan.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("AccountStatus")
-                        .HasColumnType("bit");
+                    b.Property<bool?>("AccountStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -568,7 +570,7 @@ namespace Emreraslan.DataAccess.Migrations
                     b.HasOne("Emreraslan.Core.Entities.User", "User")
                         .WithOne("Vendor")
                         .HasForeignKey("Emreraslan.Core.Entities.Vendor", "UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");

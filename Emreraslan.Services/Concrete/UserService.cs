@@ -1,10 +1,11 @@
 ﻿using Emreraslan.Core.Dtos;
 using Emreraslan.Core.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Emreraslan.Services.Concrete
 {
-	public class UserService
+    public class UserService
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
@@ -30,7 +31,15 @@ namespace Emreraslan.Services.Concrete
 			}
 
 			await _signInManager.SignInAsync(user, userLoginDto.IsRemember);
-			return (" ", true);
+
+			bool isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+			if (isAdmin)
+			{
+                return ("Admin", true);
+            }
+
+			return ("Kullanici", true);
 		}
 
 		public async Task<(string, bool)> SignUpUser(UserSignUpDto userSignUpDto)
@@ -74,6 +83,37 @@ namespace Emreraslan.Services.Concrete
             }
 
 			return ("Hesabınız başarıyla oluşturuldu.", true);
+		}
+
+		public async Task SignOutUser()
+		{
+            await _signInManager.SignOutAsync();
+        }
+
+		public async Task<List<User>> GetAll()
+		{
+			List<User> users = await _userManager.Users.ToListAsync();
+			return users;
+		}
+
+		public async Task<bool> DeleteUser(string id) 
+		{
+			var user = await _userManager.FindByIdAsync(id);
+			if (user != null)
+			{
+				var result = await _userManager.DeleteAsync(user);
+				if (result.Succeeded)
+				{
+					return (true);
+				}
+				else
+				{
+					return (false);
+				}
+			}
+
+			return (false);
+
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Emreraslan.Core.Entities
         public int Stock { get; set; }
         public string Description { get; set; }
         public string Colour { get; set; }
-        public decimal Size { get; set; }
+        public decimal Discount { get; set; }
         public string Brand { get; set; }
         public string PhotoPath { get; set; }
 

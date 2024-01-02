@@ -83,7 +83,7 @@ namespace Emreraslan.Web.Areas.VendorPanel.Controllers
                     files[0].CopyTo(stream);
                 }
 
-                return Json(new {isOk = true , path = "/VendorPanelContent/images/products" + randomFileName });
+                return Json(new {isOk = true , path = "/VendorPanelContent/images/products/" + randomFileName });
             }
             else
             {
