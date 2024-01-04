@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "UpdateProfile";
+    Layout = "~/Areas/UserPanel/Views/Shared/_Layout.cshtml";
+}
+
+
+@model Emreraslan.Core.Entities.User;
+
+<div>
+    <div class="myaccount-content">
+        <h4 class="title">Update Profile</h4>
+        <div class="login_form_container">
+            <div class="account_details_form">
+                <form action="#" id="updateForm">
+                    <div class="default-form-box mb-20">
+                        <label>First Name</label>
+                        <input type="text" name="first-name" class="form-control" value="@Model.Name" id="txtName">
+                    </div>
+                    <div class="default-form-box mb-20">
+                        <label>Last Name</label>
+                        <input type="text" name="last-name" class="form-control" value="@Model.Surname" id="txtSurname">
+                    </div>
+                    <div class="default-form-box mb-20">
+                        <label>Email</label>
+                        <input type="text" name="email-name" value="@Model.Email" id="txtEmail"
+                               class="form-control">
+                    </div>
+                    <div class="default-form-box mb-20">
+                        <label>Phone Number</label>
+                        <input type="number" name="birthday" value="@Model.PhoneNumber" id="txtNumber"
+                               class="form-control">
+                    </div>
+                    <div class="save_button mt-3">
+                        <button class="theme-btn-one btn-black-overlay btn_sm" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scriptss{
+
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(function () {
+
+            $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
+            $("#updateForm").submit(function (event) {
+                event.preventDefault();
+
+                const data = {
+                    user: {
+                        name: $("#txtName").val(),
+                        surname: $("#txtSurname").val(),
+                        email: $("#txtEmail").val(),
+                        phoneNumber: $("#txtNumber").val()                       
+                    }
+                }                
+
+                $.post('/UserPanel/Account/UpdateProfile', data)
+                    .done(function (response) {
+                        if (response.isOk) {
+                            alert("Profil bilgileriniz baarıyla güncellendi.");
+                            window.location.href = "/UserPanel/Account/Index";
+                        }
+                    })
+                    .fail(function (error) {
+                        console.error("Error during login: ", error);
+                    });
+
+            });
+        });
+    </script>
+}

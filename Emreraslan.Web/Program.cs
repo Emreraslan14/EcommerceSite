@@ -63,6 +63,15 @@ builder.Services.AddSingleton(typeof(IGenericRepo<Category>), serviceProvider =>
     }
 });
 
+builder.Services.AddDistributedMemoryCache(); // Use in-memory cache for session storage
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 #endregion
 
 
@@ -108,6 +117,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
@@ -121,13 +131,13 @@ app.UseEndpoints(endpoints =>
     pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
-using (var scope = app.Services.CreateScope())
-{
-    var dataSeedingService = scope.ServiceProvider.GetRequiredService<DataSeedingService>();
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dataSeedingService = scope.ServiceProvider.GetRequiredService<DataSeedingService>();
 
-    await dataSeedingService.SeedRolesAsync();
-    await dataSeedingService.SeedAdminUserAsync();
-}
+//    await dataSeedingService.SeedRolesAsync();
+//    await dataSeedingService.SeedAdminUserAsync();
+//}
 
 
 app.Run();

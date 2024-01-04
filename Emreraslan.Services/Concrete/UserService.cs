@@ -115,5 +115,21 @@ namespace Emreraslan.Services.Concrete
 			return (false);
 
 		}
+
+		public async Task<bool> UpdateUser(User user,User existedUser)
+		{
+			existedUser.Name = user.Name;
+			existedUser.Email = user.Email;
+			existedUser.Surname = user.Surname;
+			existedUser.PhoneNumber = user.PhoneNumber;
+
+			var result = await _userManager.UpdateAsync(existedUser);
+
+			if(result.Succeeded)
+			{
+				return (true);
+			}
+			else { return (false);}
+		}
 	}
 }

@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Emreraslan.Core.Entities;
+
+@{
+    var selectedProducts = ViewData["SelectedProduct"] as List<Product>;
+    var wishProducts = ViewData["WishListProduct"] as List<Product>;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -59,8 +66,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-7">
-                    <ul class="top-header-contact-info">
-                        
+                    <ul class="top-header-contact-info">                        
                     </ul>
                 </div>
                 <div class="col-lg-6 col-md-5">
@@ -245,7 +251,16 @@
                             <div class="option-item">
                                 <div class="cart-btn">
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingCartModal">
-                                        <i class='fas fa-shopping-bag'></i><span>3</span>
+                                        <i class='fas fa-shopping-bag'></i>@{
+                                            if(selectedProducts != null)
+                                            {
+                                                <span>@selectedProducts.Count</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0</span>
+                                            }
+                                        }
                                     </a>
                                 </div>
                             </div>
@@ -385,57 +400,67 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <div class="modal-body">
-                    <h3>My Cart (3)</h3>
-                    <div class="products-cart-content">
-                        <div class="products-cart d-flex align-items-center">
-                            <div class="products-image">
-                                <a href="#"><img src="~/assets/img/product-image/product1.png" alt="image"></a>
-                            </div>
-                            <div class="products-content">
-                                <h3><a href="#">Coronavirus Face Mask</a></h3>
-                                <div class="products-price">
-                                    <span>1</span>
-                                    <span>x</span>
-                                    <span class="price">$39.00</span>
-                                </div>
-                            </div>
-                            <a href="#" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                        <div class="products-cart d-flex align-items-center">
-                            <div class="products-image">
-                                <a href="#"><img src="~/assets/img/product-image/product2.png" alt="image"></a>
-                            </div>
-                            <div class="products-content">
-                                <h3><a href="#">Protective Gloves</a></h3>
-                                <div class="products-price">
-                                    <span>1</span>
-                                    <span>x</span>
-                                    <span class="price">$99.00</span>
-                                </div>
-                            </div>
-                            <a href="#" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                        <div class="products-cart d-flex align-items-center">
-                            <div class="products-image">
-                                <a href="#"><img src="~/assets/img/product-image/product3.png" alt="image"></a>
-                            </div>
-                            <div class="products-content">
-                                <h3><a href="#">Infrared Thermometer Gun</a></h3>
-                                <div class="products-price">
-                                    <span>1</span>
-                                    <span>x</span>
-                                    <span class="price">$90.00</span>
-                                </div>
-                            </div>
-                            <a href="#" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                    </div>
+                    @{
+                        if (selectedProducts != null)
+                        {
+                            <h3>My Chart (@selectedProducts.Count)</h3>
+                        }
+                        else
+                        {
+                            <h3>My Chart (0)</h3>
+                        }
+                    }
+                    
+                    @{
+                        if(selectedProducts != null)
+                        {
+                            if (selectedProducts.Count > 0)
+                            {
+                                foreach (var prod in selectedProducts)
+                                {
+                                    <div class="products-cart-content">
+                                        <div class="products-cart d-flex align-items-center">
+                                            <div class="products-image">
+                                                @{
+                                                    if (prod != null)
+                                                    {
+                                                        <a href="/Home/ProductSingle/@prod.Id"><img src="@prod.PhotoPath" alt="image"></a>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="products-content">
+                                                <h3><a href="/Home/ProductSingle/@prod.Id">@prod.Name</a></h3>
+                                                <div class="products-price">
+                                                    <span>1</span>
+                                                    <span>x</span>
+                                                    <span class="price">
+                                                        @{
+                                                            if (prod.Discount > 0)
+                                                            {
+                                                                decimal discountedPrice = prod.Price - (prod.Price * prod.Discount / 100);
+                                                                <span>@discountedPrice.ToString("0.##") ₺</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@prod.Price.ToString("0.##") ₺</span>
+                                                            }
+                                                        }
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <a href="/Home/RemoveFromCart/@prod.Id" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
                     <div class="products-cart-subtotal">
                         <span>Subtotal</span>
                         <span class="subtotal">$228.00</span>
                     </div>
                     <div class="products-cart-btn">
-                        <a href="checkout.html" class="theme-btn-one btn-black-overlay btn_md">Checkout</a>
+                        <a href="checkout.html" class="theme-btn-one btn-black-overlay btn_md">Satın Al</a>
                     </div>
                 </div>
             </div>
@@ -450,58 +475,55 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <div class="modal-body">
-                    <h3>My Wishlist (3)</h3>
-                    <div class="products-cart-content">
-                        <div class="products-cart d-flex align-items-center">
-                            <div class="products-image">
-                                <a href="#"><img src="~/assets/img/product-image/product1.png" alt="image"></a>
-                            </div>
-                            <div class="products-content">
-                                <h3><a href="#">Coronavirus Face Mask</a></h3>
-                                <div class="products-price">
-                                    <span>1</span>
-                                    <span>x</span>
-                                    <span class="price">$39.00</span>
-                                </div>
-                            </div>
-                            <a href="#" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
+                    @{
+                        if (wishProducts != null)
+                        {
+                            <h3>My Wishlist (@wishProducts.Count)</h3>
+                        }
+                        else
+                        {
+                            <h3>My Wishlist (0)</h3>
+                        }
+
+                        if(wishProducts != null)
+                        {
+                            if(wishProducts.Count > 0)
+                            {
+                                foreach(var prod in wishProducts)
+                                {
+                                    <div class="products-cart-content">
+                                        <div class="products-cart d-flex align-items-center">
+                                            <div class="products-image">
+                                                <a href="/Home/ProductSingle/@prod.Id"><img src="@prod.PhotoPath" alt="image"></a>
+                                            </div>
+                                            <div class="products-content">
+                                                <h3><a href="/Home/ProductSingle/@prod.Id">@prod.Name</a></h3>
+                                                <div class="products-price">
+                                                    <span>1</span>
+                                                    <span>x</span>
+                                                    @{
+                                                        if (prod.Discount > 0)
+                                                        {
+                                                            decimal discountedPrice = prod.Price - (prod.Price * prod.Discount / 100);
+                                                            <span>@discountedPrice.ToString("0.##") ₺</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@prod.Price.ToString("0.##") ₺</span>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <a href="/Home/RemoveFromWishlist/@prod.Id" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
+                                        </div>                                                                               
+                                    </div>
+                                }
+                            }
+                        }
+                        <div class="products-cart-btn">
+                            <a href="wishlist.html" class="theme-btn-one btn-black-overlay btn_md">Wishlist</a>
                         </div>
-                        <div class="products-cart d-flex align-items-center">
-                            <div class="products-image">
-                                <a href="#"><img src="~/assets/img/product-image/product2.png" alt="image"></a>
-                            </div>
-                            <div class="products-content">
-                                <h3><a href="#">Protective Gloves</a></h3>
-                                <div class="products-price">
-                                    <span>1</span>
-                                    <span>x</span>
-                                    <span class="price">$99.00</span>
-                                </div>
-                            </div>
-                            <a href="#" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                        <div class="products-cart d-flex align-items-center">
-                            <div class="products-image">
-                                <a href="#"><img src="~/assets/img/product-image/product3.png" alt="image"></a>
-                            </div>
-                            <div class="products-content">
-                                <h3><a href="#">Infrared Thermometer Gun</a></h3>
-                                <div class="products-price">
-                                    <span>1</span>
-                                    <span>x</span>
-                                    <span class="price">$90.00</span>
-                                </div>
-                            </div>
-                            <a href="#" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                    </div>
-                    <div class="products-cart-subtotal">
-                        <span>Subtotal</span>
-                        <span class="subtotal">$228.00</span>
-                    </div>
-                    <div class="products-cart-btn">
-                        <a href="wishlist.html" class="theme-btn-one btn-black-overlay btn_md">Wishlist</a>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

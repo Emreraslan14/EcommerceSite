@@ -43,13 +43,13 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product_wrappers_one">
                                 <div class="thumb">
-                                    <a href="product-single.html" class="image">
+                                    <a href="/Home/ProductSingle/@product.Id" class="image">
                                         <img src="@product.PhotoPath" alt="Product" />
                                         <img class="hover-image" src="@product.PhotoPath"
                                              alt="Product" />
                                     </a>
                                     <div class="actions">
-                                        <a href="wishlist.html" class="action wishlist" title="Wishlist">
+                                        <a href="/Home/AddToWishList/@product.Id" class="action wishlist" title="Wishlist">
                                             <i class="far fa-heart"></i>
                                         </a>
                                         <a href="#" class="action quickview" data-link-action="quickview"
@@ -59,10 +59,12 @@
                                             <i class="fas fa-exchange-alt"></i>
                                         </a>
                                     </div>
-                                    <button title="Add To Cart" class="add-to-cart offcanvas-toggle"
-                                            data-bs-toggle="modal" data-bs-target="#shoppingCartModal">
-                                        Add To Cart
-                                    </button>
+                                    <a href="/Home/AddToCart/@product.Id">
+                                        <button title="Add To Cart" class="add-to-cart offcanvas-toggle"
+                                                data-bs-toggle="modal" data-bs-target="#shoppingCartModal">
+                                            Add to cart
+                                        </button>
+                                    </a>
                                 </div>
                                 <div class="content">
                                     <h5 class="title"><a href="product-single.html">@product.Name</a></h5>
@@ -156,3 +158,10 @@
     </section>
 
 
+    @section Scripts{
+    <script>
+        document.querySelector('.add-to-cart').addEventListener('click', function () {
+            window.location.href = this.getAttribute('href');
+        });
+    </script>
+    }
