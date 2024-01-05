@@ -4,6 +4,8 @@
     Layout = "~/Areas/UserPanel/Views/Shared/_Layout.cshtml";
 }
 
+@model List<Emreraslan.Core.Entities.Order>
+
 <div>
     <div class="myaccount-content">
         <h4 class="title">Orders </h4>
@@ -14,25 +16,27 @@
                         <th>Order</th>
                         <th>Date</th>
                         <th>Status</th>
-                        <th>Total</th>
+                        <th>Price</th>
+                        <th>Discount</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>May 10, 2018</td>
-                        <td><span class="success">Completed</span></td>
-                        <td>$25.00 for 1 item </td>
-                        <td><a href="cart.html" class="view">view</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>May 10, 2018</td>
-                        <td>Processing</td>
-                        <td>$17.00 for 1 item </td>
-                        <td><a href="cart.html" class="view">view</a></td>
-                    </tr>
+                    @{
+                        int num = 1;
+                        foreach(var order in @Model)
+                        {
+                            <tr>
+                                <td>@num</td>
+                                <td>@order.CreatedDate</td>
+                                <td><span class="success">Not Completed</span></td>
+                                <td>@order.TotalPrice ₺</td>
+                                <td>@order.Discount ₺</td>
+                                <td><a href="/UserPanel/Order/DeleteOrder/@order.Id" class="view">Cancel the order</a></td>
+                            </tr>
+                            num++;
+                        }
+                    }
                 </tbody>
             </table>
         </div>

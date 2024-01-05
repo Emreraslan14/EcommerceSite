@@ -34,6 +34,7 @@
 									<tr>
 										<th>ID</th>
 										<th>Category Name</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 
@@ -43,7 +44,15 @@
 										{
 											<tr>
 												<td># @category.Id</td>
-												<td>@category.Name</td>												
+												<td>@category.Name</td>
+												<td>
+													<a href="/AdminPanel/Category/RemoveCategory/@category.Id">
+														<button type="button"
+																class="btn btn-outline-success">
+															Delete
+														</button>
+													</a>
+												</td>
 											</tr>
 										}
 									}
@@ -57,7 +66,7 @@
 
 		<br />
 
-		<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Category</button>
+		<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addModal">Add Category</button>
 
 		<!-- Modal -->
 		<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

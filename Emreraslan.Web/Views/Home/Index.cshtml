@@ -6,6 +6,11 @@
 }
 
 @using Emreraslan.Core.Entities;
+
+@{
+    var categories = ViewData["Categories"] as List<Category>;
+}
+
 @model List<Product>
 
 
@@ -118,7 +123,7 @@
                         <div class="shop_Search">
                             <form action="#!">
                                 <input type="text" class="form-control" placeholder="Search...">
-                                <button><img src="assets/img/svg/search.svg" alt="img"></button>
+                                <button><img src="~/assets/img/svg/search.svg" alt="img"></button>
                             </form>
                         </div>
                         <div class="shop_sidebar_boxed">
@@ -128,22 +133,18 @@
                                 <input type="radio" name="radio" checked="checked">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="custom_boxed">Furniture
-                                    <input type="radio" name="radio">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom_boxed">Electronics
-                                    <input type="radio" name="radio">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom_boxed">Sport
-                                    <input type="radio" name="radio">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom_boxed">Cosmetic
-                                    <input type="radio" name="radio">
-                                    <span class="checkmark"></span>
-                                </label>                                
+                            @{
+                                if(categories != null)
+                                {
+                                    foreach (var category in categories)
+                                    {
+                                        <label class="custom_boxed">@category.Name                                            
+                                            <input type="radio" name="radio">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    }
+                                }
+                            }                          
                             </form>
                         </div>                                               
                         <div class="shop_sidebar_boxed">                                                  

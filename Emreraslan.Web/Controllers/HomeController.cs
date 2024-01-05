@@ -1,6 +1,7 @@
 ﻿using Emreraslan.Core.Entities;
 using Emreraslan.Services.Abstract;
 using Emreraslan.Web.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Emreraslan.Web.Controllers
@@ -9,11 +10,17 @@ namespace Emreraslan.Web.Controllers
 	{
 		private readonly IProductService _productService;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IOrderService _orderService;        
+        private readonly ICategoryService _categoryService;        
+        private readonly UserManager<User> _userManager;
 
-        public HomeController(IProductService productService , IHttpContextAccessor contextAccessor)
+        public HomeController(IProductService productService , IHttpContextAccessor contextAccessor, IOrderService orderService, UserManager<User> userManager, ICategoryService categoryService)
         {
             _productService = productService;
             _contextAccessor = contextAccessor;
+            _orderService = orderService;
+            _userManager = userManager;
+            _categoryService = categoryService;
         }
 
         public async Task<IActionResult> Index()
@@ -25,10 +32,11 @@ namespace Emreraslan.Web.Controllers
 
             List<Product> selectedProducts = HttpContext.Session.GetList<Product>("SelectedProducts");
             List<Product> wishProducts = HttpContext.Session.GetList<Product>("WishListProducts");
-
+            List<Category> categories = _categoryService.GetAll();
 
             ViewData["SelectedProduct"] = selectedProducts;
             ViewData["WishListProduct"] = wishProducts;
+            ViewData["Categories"] = categories;
 
             List<Product> products = _productService.GetAll();
 
@@ -44,28 +52,38 @@ namespace Emreraslan.Web.Controllers
 
 		public IActionResult AddToCart(int id)
 		{
-            List<Product> prods = HttpContext.Session.GetList<Product>("SelectedProducts") ?? new List<Product>();
+            if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                List<Product> prods = HttpContext.Session.GetList<Product>("SelectedProducts") ?? new List<Product>();
 
-            var product = _productService.GetById(id);
+                var product = _productService.GetById(id);
 
-			prods.Add(product);
+                prods.Add(product);
 
-            HttpContext.Session.SetList("SelectedProducts", prods);
+                HttpContext.Session.SetList("SelectedProducts", prods);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
+            return NotFound();
         }
 
         public IActionResult AddToWishList(int id)
         {
-            List<Product> wishProds = HttpContext.Session.GetList<Product>("WishListProducts") ?? new List<Product>();
+            if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                List<Product> wishProds = HttpContext.Session.GetList<Product>("WishListProducts") ?? new List<Product>();
 
-            var product = _productService.GetById(id);
+                var product = _productService.GetById(id);
 
-            wishProds.Add(product);
+                wishProds.Add(product);
 
-            HttpContext.Session.SetList("WishListProducts", wishProds);
+                HttpContext.Session.SetList("WishListProducts", wishProds);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
+            return NotFound();
         }
 
         public IActionResult RemoveFromWishlist(int id)
@@ -92,6 +110,90 @@ namespace Emreraslan.Web.Controllers
             HttpContext.Session.SetList("SelectedProducts", products);
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> CreateOrder()
+        {
+            if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                List<Product> productsForOrder = HttpContext.Session.GetList<Product>("SelectedProducts");
+
+                var userName = _contextAccessor.HttpContext.User.Identity.Name;
+
+                if (userName != null)
+                {
+                    var user = await _userManager.FindByNameAsync(userName);
+
+                    if (user != null)
+                    {
+                        List<Product> productsToRemove = new List<Product>();
+
+                        foreach (var product in productsForOrder)
+                        {
+                            Order order = new Order()
+                            {
+                                OrderDate = DateTime.Now,
+                                Discount = (int)(product.Price * product.Discount / 100),
+                                UserId = user.Id,
+                                VendorId = product.VendorId,
+                                Quantity = 1,
+                                TotalPrice = product.Price - product.Discount,
+                                ProductOrders = new List<ProductOrder>()
+                            };
+                            
+                            int result = _orderService.Insert(order);
+
+                            if(result == 1) 
+                            {
+                                ProductOrder prodOrd = new ProductOrder()
+                                {
+                                    ProductId = product.Id,
+                                    OrderId = order.Id
+                                };
+
+                                order.ProductOrders.Add(prodOrd);
+
+                                _orderService.Update(order);
+
+                                productsToRemove.Add(product);                                
+                            }                           
+                        }
+
+                        foreach (var productToRemove in productsToRemove)
+                        {
+                            productsForOrder.Remove(productToRemove);
+                        }
+
+                        HttpContext.Session.SetList("SelectedProducts", productsForOrder);
+
+                        return RedirectToAction("Index");
+                    }
+
+                    return NotFound();
+                }
+                return NotFound();
+            }
+            return NotFound();
+        }
+
+
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult PrivacyPolicy()
+        {
+            return View();
+        }
+
+        public IActionResult FrequentlyQuestions()
+        {
+            return View();
         }
     }
 }

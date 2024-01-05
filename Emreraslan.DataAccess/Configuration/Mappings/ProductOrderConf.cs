@@ -11,7 +11,7 @@ namespace Emreraslan.DataAccess.Configuration.Mappings
             b.HasKey(x => new {x.OrderId , x.ProductId});
 
             b.HasOne(x => x.Product).WithMany(x => x.ProductOrders).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.NoAction);
-            b.HasOne(x => x.Order).WithMany(x => x.ProductOrders).HasForeignKey(x => x.OrderId).OnDelete(DeleteBehavior.NoAction);
+            b.HasOne(x => x.Order).WithMany(x => x.ProductOrders).HasForeignKey(x => x.OrderId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -33,5 +33,14 @@ namespace Emreraslan.Web.Areas.AdminPanel.Controllers
             }
             return Json(new {isOk=false,message="Ekleme işlemi başarısız!"});
         }
+
+        public IActionResult RemoveCategory(int id)
+        {
+            var category = _categoryService.GetById(id);
+
+            _categoryService.Delete(category);
+
+            return RedirectToAction("Index");
+        }
     }
 }
