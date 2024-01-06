@@ -1,5 +1,6 @@
 ﻿using Emreraslan.Core.Entities;
 using Emreraslan.Services.Abstract;
+using Emreraslan.Services.Concrete;
 using Emreraslan.Web.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +14,16 @@ namespace Emreraslan.Web.Controllers
         private readonly IOrderService _orderService;        
         private readonly ICategoryService _categoryService;        
         private readonly UserManager<User> _userManager;
+        private readonly ProductOrderService _productOrderService;
 
-        public HomeController(IProductService productService , IHttpContextAccessor contextAccessor, IOrderService orderService, UserManager<User> userManager, ICategoryService categoryService)
+        public HomeController(IProductService productService , IHttpContextAccessor contextAccessor, IOrderService orderService, UserManager<User> userManager, ICategoryService categoryService, ProductOrderService productOrderService)
         {
             _productService = productService;
             _contextAccessor = contextAccessor;
             _orderService = orderService;
             _userManager = userManager;
             _categoryService = categoryService;
+            _productOrderService = productOrderService;
         }
 
         public async Task<IActionResult> Index()
@@ -151,7 +154,7 @@ namespace Emreraslan.Web.Controllers
                                     OrderId = order.Id
                                 };
 
-                                order.ProductOrders.Add(prodOrd);
+                                _productOrderService.Insert(prodOrd);
 
                                 _orderService.Update(order);
 

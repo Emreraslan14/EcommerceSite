@@ -16,6 +16,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 #region Services
 
+
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<DataSeedingService>();
 builder.Services.AddSingleton<AppDbContext>();
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ProductOrderService>();
 builder.Services.AddHttpContextAccessor();
 
 

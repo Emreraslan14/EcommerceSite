@@ -4,5 +4,78 @@
     Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@section StyleSheets{
+	<!-- Data-Tables -->
+	<link href='~/assets/plugins/data-tables/datatables.bootstrap5.min.css' rel='stylesheet'>
+	<link href='~/assets/plugins/data-tables/responsive.datatables.min.css' rel='stylesheet'>
+}
 
+@model List<Emreraslan.Core.ViewModels.VendorUserOrderProdVm>
+
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+	<div class="content">
+		<div class="breadcrumb-wrapper">
+			<div>
+				<h1>All Orders</h1>
+				<p class="breadcrumbs">
+					<span><a href="index.html">Home</a></span>
+					<span><i class="mdi mdi-chevron-right"></i></span>All Orders
+				</p>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="card card-default">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="responsive-data-table" class="table" style="width:100%">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Photo</th>
+										<th>Product name</th>
+										<th>Category</th>
+										<th>Price</th>
+										<th>Seller</th>
+										<th>Shipping address</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									@{
+										foreach(var vm in @Model)
+										{
+											<tr>
+												<td># @vm.Order.Id</td>
+												<td>
+													<img class="product-img tbl-img"
+														 src="@vm.Product.PhotoPath" alt="product">
+												</td>
+												<td>@vm.Product.Name</td>
+												<td>@vm.Vendor.Category</td>
+												<td>@vm.Order.TotalPrice</td>
+												<td>@vm.Vendor.CompanyName</td>
+												<td>@vm.User.Address</td>
+												<td> <span class="badge badge-success">Active</span> </td>												
+											</tr>
+										}
+									}									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+
+@section Scriptss{
+	<!-- Data-Tables -->
+	<script src='~/assets/plugins/data-tables/jquery.datatables.min.js'></script>
+	<script src='~/assets/plugins/data-tables/datatables.bootstrap5.min.js'></script>
+	<script src='~/assets/plugins/data-tables/datatables.responsive.min.js'></script>
+}

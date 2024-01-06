@@ -16,6 +16,7 @@ namespace Emreraslan.DataAccess.Contexts.EfCoreApp
         public DbSet<Category> Categories { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<ProductOrder> ProductOrders { get; set; }
 
 
 
