@@ -11,17 +11,21 @@ namespace Emreraslan.Web.Areas.UserPanel.Controllers
         private readonly IVendorService _vendorService;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<User> _userManager;
-        public BeVendorController(IVendorService vendorService, UserManager<User> userManager,IHttpContextAccessor contextAccessor)
+        private readonly ICategoryService _categoryService;
+        public BeVendorController(IVendorService vendorService, UserManager<User> userManager,IHttpContextAccessor contextAccessor,ICategoryService categoryService)
         {
             _vendorService = vendorService;
             _contextAccessor = contextAccessor;
             _userManager = userManager;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var categories = _categoryService.GetAll();
+
+            return View(categories);
         }
 
         [HttpPost]

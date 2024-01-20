@@ -4,6 +4,7 @@
     Layout = "~/Areas/UserPanel/Views/Shared/_Layout.cshtml";
 }
 
+@model List<Emreraslan.Core.Entities.Category>;
 
 <div>
     <div class="bevendor-content">
@@ -29,10 +30,16 @@
             <label>Address <span>*</span></label>
             <input type="text" class="form-control" id="txtAddress">
         </div>
-        <div class="default-form-box">
-            <label>Category <span>*</span></label>
-            <input type="text" class="form-control" id="txtCategory">
-        </div>
+            <div class="default-form-box">
+                <label>Category <span>*</span></label>
+                <select class="form-control" id="txtCategory">
+                    @foreach (var category in @Model)
+                    {
+                        <option value="@category.Name">@category.Name</option>
+                    }
+                </select>
+            </div>
+            <br/>
         <div class="login_submit">
             <button class="theme-btn-one btn-black-overlay btn_md" type="submit" id="btnSave">Register</button>
         </div>

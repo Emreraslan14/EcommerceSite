@@ -12,8 +12,7 @@ namespace Emreraslan.DataAccess.Configuration.Mappings
             b.Property(x => x.Id).UseIdentityColumn(1,1);
 			b.Property(v => v.AccountStatus)
 				.IsRequired(false)
-				.HasDefaultValue(true);
-			//b.HasMany(v => v.Products).WithOne(p => p.Vendor).HasForeignKey(p => p.VendorId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+				.HasDefaultValue(true);			
 
 			// Vendor configuration
 			b.HasOne(x => x.User)

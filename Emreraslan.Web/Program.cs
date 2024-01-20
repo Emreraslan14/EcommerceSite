@@ -81,7 +81,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
 	//Environment.GetEnvironmentVariable("CONSTR")
-	opt.UseSqlServer("Data Source=.;Initial Catalog=EmreEraslanDb;Integrated Security=True;TrustServerCertificate=True;");
+	opt.UseSqlServer("Data Source=89.252.183.170\\MSSQLSERVER2019;Initial Catalog=emrerasl_andshop;user id=emrerasl_an01;password=D910l9iv?;TrustServerCertificate=True;");
 }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
 

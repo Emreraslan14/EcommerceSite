@@ -140,8 +140,7 @@ namespace Emreraslan.Web.Controllers
                                 UserId = user.Id,
                                 VendorId = product.VendorId,
                                 Quantity = 1,
-                                TotalPrice = product.Price - product.Discount,
-                                ProductOrders = new List<ProductOrder>()
+                                TotalPrice = product.Price - product.Discount
                             };
                             
                             int result = _orderService.Insert(order);
@@ -156,8 +155,6 @@ namespace Emreraslan.Web.Controllers
 
                                 _productOrderService.Insert(prodOrd);
 
-                                _orderService.Update(order);
-
                                 productsToRemove.Add(product);                                
                             }                           
                         }
@@ -170,11 +167,8 @@ namespace Emreraslan.Web.Controllers
                         HttpContext.Session.SetList("SelectedProducts", productsForOrder);
 
                         return RedirectToAction("Index");
-                    }
-
-                    return NotFound();
-                }
-                return NotFound();
+                    }                    
+                }                
             }
             return NotFound();
         }
