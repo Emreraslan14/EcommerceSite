@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@model Emreraslan.Web.Models.ProductDto
 <!-- Add Product Area -->
 <section class="ptb-100">
     <div class="container">
@@ -14,13 +14,13 @@
                         <a href="/VendorPanel/Dashboard/Index"><i class="fas fa-long-arrow-alt-left"></i> Back To Dashboard</a>
                     </div>
                     <h3>Add Product</h3>
-                    <form action="#!" class="add_product_form" id="addProdForm">
+                    <form asp-area="VendorPanel" asp-controller="AddProduct" asp-action="UploadPhoto" method="post"  enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="image-input">
                                     <img src="~/assets/img/product-image/product1.png" class="image-preview"
                                          alt="img">
-                                    <input type="file" accept="image/*" id="imageInput">
+                                    <input type="file" accept="image/*" id="imageInput" asp-for="ProductPhoto">
                                     <label for="imageInput" class="image-button">
                                         <i class="far fa-image"></i>Choose image
                                     </label>
@@ -30,47 +30,47 @@
                                 <div class="fotm-group">
                                     <label for="product_name">Product Name*</label>
                                     <input type="text" id="txtName" class="form-control"
-                                           placeholder="">
+                                           placeholder="" asp-for="Name">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="product_price">Product Price*</label>
-                                    <input type="number" id="numPrice" class="form-control" placeholder="">
+                                    <input type="number" id="numPrice" class="form-control" placeholder="" asp-for="Price">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="product_brand">Brand*</label>
                                     <input type="text" id="txtBrand" class="form-control"
-                                           placeholder="">
+                                           placeholder="" asp-for="Brand">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="product_desc">Description*</label>
                                     <input type="text" id="txtDesc" class="form-control"
-                                           placeholder="Write about the product features">
+                                           placeholder="Write about the product features" asp-for="Description">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="product_colour">Colour*</label>
                                     <input type="text" id="txtColour" class="form-control"
-                                           placeholder="">
+                                           placeholder="" asp-for="Colour">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="product_size">Discount(%)</label>
                                     <input type="number" id="numDisc" class="form-control"
-                                           placeholder="">
+                                           placeholder="" asp-for="Discount">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="fotm-group">
                                     <label for="available_stock">Available Stock (Quantity)*</label>
-                                    <input type="number" id="numStock" class="form-control" placeholder="">
+                                    <input type="number" id="numStock" class="form-control" placeholder="" asp-for="Stock">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -90,7 +90,7 @@
 
     <script src="~/assets/js/img-upload.js"></script>
 
-    <script>
+@*     <script>
         $(function () {
 
             $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
@@ -141,6 +141,6 @@
 
             });
         });
-    </script>
+    </script> *@
 
 }                                
