@@ -12,32 +12,32 @@
         <div class="row area_boxed">
             <div class="col-lg-4">
                 <div class="product_single_one_img">
-                    <img src="@Model.PhotoPath"/>
+                    <img src="@Model?.PhotoPath"/>
                 </div>
             </div>
             <div class="col-lg-8">
                 <div class="product_details_right_one">
                     <div class="modal_product_content_one">
 
-                        <h3>@Model.Name</h3>
+                        <h3>@Model?.Name</h3>
                         
                         @{
-                            if(Model.Discount > 0)
+                            if(Model?.Discount > 0)
                             {
-                                decimal discounted = Model.Price - (Model.Price * Model.Discount / 100);
-                                <h4>@discounted.ToString("0.##") ₺<del>@Model.Price</del> </h4>
+                                decimal discounted = (Model?.Price ?? 0) - ((Model?.Price ?? 0) * (Model?.Discount ?? 0) / 100);
+                                <h4>@discounted.ToString("0.##") ₺<del>@Model?.Price</del> </h4>
                             }
                             else
                             {
-                                <h4>@Model.Price</h4>
+                                <h4>@Model?.Price</h4>
                             }
                         }
                         @* <h4>$317.76 <del>$456.43</del> </h4> *@
                         <p>
-                            @Model.Description
+                            @Model?.Description
                         </p>
                         <div class="variable-single-item">
-                            <span>Color : @Model.Colour</span>                            
+                            <span>Color : @Model?.Colour</span>                            
                         </div>
                         <form action="#!" id="product_count_form_two">
                             <div class="product_count_one">
@@ -61,7 +61,7 @@
                         <div class="links_Product_areas">
                             <ul>
                                 <li>
-                                    <a href="/Home/AddToWishList/@Model.Id" class="action wishlist" title="Wishlist">
+                                    <a href="/Home/AddToWishList/@Model?.Id" class="action wishlist" title="Wishlist">
                                         <i class="far fa-heart"></i>Add To Wishlist
                                     </a>
                                 </li>
@@ -71,7 +71,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <a href="/Home/AddToCart/@Model.Id" class="theme-btn-one btn-black-overlay btn_sm">Add To Cart</a>
+                            <a href="/Home/AddToCart/@Model?.Id" class="theme-btn-one btn-black-overlay btn_sm">Add To Cart</a>
                         </div>
 
                     </div>
@@ -90,7 +90,7 @@
                     <div class="tab-content">
                         <div id="description" class="tab-pane fade in show active">
                             <div class="product_description">
-                                @Model.Description
+                                @Model?.Description
                             </div>
                         </div>
                     </div>

@@ -44,5 +44,12 @@ namespace Emreraslan.Web.Areas.VendorPanel.Controllers
 
             return NotFound();
         }
+
+        public IActionResult Delete(int id)
+        {
+            Product prod = _productService.GetById(id);
+            _productService.Delete(prod);
+            return RedirectToAction("Index", "Product", new { area = "VendorPanel" });
+        }
     }
 }

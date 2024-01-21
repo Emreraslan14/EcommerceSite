@@ -28,13 +28,13 @@ namespace Emreraslan.DataAccess.Repos.Concrete
         public TEntity Get(Expression<Func<TEntity,bool>> filter)
         {
             {
-                return _ctx.Set<TEntity>().SingleOrDefault(filter);
+                return _ctx.Set<TEntity>().AsNoTracking().SingleOrDefault(filter);
             }
         }
         public TEntity GetById(int id)
         {
             {
-                return _ctx.Set<TEntity>().SingleOrDefault(x => x.Id == id);
+                return _ctx.Set<TEntity>().AsNoTracking().SingleOrDefault(x => x.Id == id);
             }
         }
         public void Delete(TEntity entity)

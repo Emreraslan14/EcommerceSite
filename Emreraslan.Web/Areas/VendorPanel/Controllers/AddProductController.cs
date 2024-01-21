@@ -14,14 +14,16 @@ namespace Emreraslan.Web.Areas.VendorPanel.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ICategoryService _categoryService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AddProductController(IProductService productService, UserManager<User> userManager, IHttpContextAccessor contextAccessor, IVendorService vendorService, ICategoryService categoryService)
+        public AddProductController(IProductService productService, UserManager<User> userManager, IHttpContextAccessor contextAccessor, IVendorService vendorService, ICategoryService categoryService, IWebHostEnvironment webHostEnvironment)
         {
             _productService = productService;
             _userManager = userManager;
             _contextAccessor = contextAccessor;
             _vendorService = vendorService;
             _categoryService = categoryService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -65,7 +67,7 @@ namespace Emreraslan.Web.Areas.VendorPanel.Controllers
         public JsonResult UploadPhoto()
         {
             IFormFileCollection files = Request.Form.Files;
-
+            
             if(files.Count > 0)
             {
                 var fileName = files[0].FileName;
@@ -76,7 +78,7 @@ namespace Emreraslan.Web.Areas.VendorPanel.Controllers
 
                 var randomFileName = ValueGenerater.FileNameGenerater(Path.GetExtension(fileName));
 
-                string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/VendorPanelContent/images/products" , randomFileName);
+                string uploadPath = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot/VendorPanelContent/images/products" , randomFileName);
 
                 using(var stream = new FileStream(uploadPath, FileMode.Create))
                 {

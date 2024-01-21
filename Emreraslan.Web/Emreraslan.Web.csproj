@@ -28,7 +28,6 @@
     <Folder Include="Areas\VendorPanel\Models\" />
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\assets\img\home-appliance\product\" />
     <Folder Include="wwwroot\css\" />

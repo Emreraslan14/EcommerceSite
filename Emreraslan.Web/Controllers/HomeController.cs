@@ -1,4 +1,5 @@
-﻿using Emreraslan.Core.Entities;
+﻿using Emreraslan.Core.Dtos;
+using Emreraslan.Core.Entities;
 using Emreraslan.Services.Abstract;
 using Emreraslan.Services.Concrete;
 using Emreraslan.Web.Extensions;
@@ -15,8 +16,10 @@ namespace Emreraslan.Web.Controllers
         private readonly ICategoryService _categoryService;        
         private readonly UserManager<User> _userManager;
         private readonly ProductOrderService _productOrderService;
+        private readonly IMailService _mailService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(IProductService productService , IHttpContextAccessor contextAccessor, IOrderService orderService, UserManager<User> userManager, ICategoryService categoryService, ProductOrderService productOrderService)
+        public HomeController(IProductService productService , IHttpContextAccessor contextAccessor, IOrderService orderService, UserManager<User> userManager, ICategoryService categoryService, ProductOrderService productOrderService, IMailService mailService, IWebHostEnvironment webHostEnvironment)
         {
             _productService = productService;
             _contextAccessor = contextAccessor;
@@ -24,6 +27,8 @@ namespace Emreraslan.Web.Controllers
             _userManager = userManager;
             _categoryService = categoryService;
             _productOrderService = productOrderService;
+            _mailService = mailService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -179,11 +184,12 @@ namespace Emreraslan.Web.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult ContactUs()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public IActionResult ContactUs(ContactUsDto dto)
+        {
+            _mailService.SendMail(dto);
+            return View();
+        }
 
         public IActionResult AboutUs()
         {
