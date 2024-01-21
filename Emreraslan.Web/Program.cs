@@ -26,7 +26,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ProductOrderService>();
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddScoped<IMailService, MailService>();
 
 builder.Services.AddSingleton(typeof(IGenericRepo<Product>), serviceProvider =>
 {

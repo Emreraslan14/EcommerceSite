@@ -173,11 +173,18 @@ namespace Emreraslan.Web.Controllers
             return NotFound();
         }
 
-
+        [HttpGet]
         public IActionResult ContactUs()
         {
             return View();
         }
+
+        //[HttpPost]
+        //public IActionResult ContactUs()
+        //{
+        //    return View();
+        //}
+
         public IActionResult AboutUs()
         {
             return View();
