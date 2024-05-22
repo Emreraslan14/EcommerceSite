@@ -61,3 +61,10 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+*.sol linguist-language=Solidity
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+*.cshtml linguist-detectable=false
+*.cs linguist-language=C#
+*.csproj linguist-language=XML
